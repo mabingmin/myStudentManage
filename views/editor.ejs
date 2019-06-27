@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>学员管理系统</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>编辑学员信息</h2>
+        <div class="form-group">
+            <label for="username">姓名</label>
+            <input class="form-control" id="username" placeholder="请输入学员姓名" value="<%=user.username%>">
+        </div>
+        <label class="radio-inline">
+            <input type="radio" name="usersex" value="男" <%=user.usersex=='男'?'checked':''%>> 男
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="usersex" value="女" <%=user.usersex=='女'?'checked':''%>>女
+        </label>
+
+        <div class="form-group">
+            <label for="userage">年龄</label>
+            <input type="number" class="form-control" id="userage" placeholder="请输入学员年龄" value="<%=user.userage%>">
+        </div>
+        <div class="form-group">
+            <label for="usermajor">专业</label>
+            <select class="form-control" id="usermajor">
+                <%for(let i=0;i<majors.length;i++){%>
+                <option <%=user.usermajor==majors[i].name?'selected':''%> value="<%=majors[i].name%>">
+                    <%=majors[i].name%></option>
+                <%}%>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="userphone">电话</label>
+                <input type="number" class="form-control" id="userphone" placeholder="请输入学员电话"value="<%=user.userphone%>">
+        </div>
+        <div class="form-group">
+            <label for="userphoto">个人照片</label>
+            <input type="file" id="userphoto">
+        </div>
+        <button type="submit" class="btn btn-default" id="editBtn">提交</button>
+    </div>
+</body>
+<script src="../public/jquery-1.11.2.min.js"></script>
+<script>
+    $('#editBtn').click(function () {
+        let username = $('#username').val();
+        let usersex = $('input:checked').val();
+        let userage = $('#userage').val();
+        let usermajor = $('#usermajor').val();
+        let userphone = $('#userphone').val();
+        //从url中获取学号
+        let usernumber = location.search.split('=')[1];
+        let fd = new FormData();
+        fd.append('username', username);
+        fd.append('usersex', usersex);
+        fd.append('userage', userage);
+        fd.append('usermajor', usermajor);
+        fd.append('userphone', userphone);
+        fd.append('usernumber', usernumber);
+        let files = document.getElementById('userphoto').files;
+        for (let i = 0; i < files.length; i++) {
+            fd.append('userphoto', files[i]);
+        }
+
+        $.ajax({
+            url: 'editor.do',
+            type: 'post',
+            data: fd,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data === 'success') {
+                    location.href = '/';
+                } else {
+                    alert('添加失败');
+                }
+            },
+            error: function (status) {
+                console.error(status);
+            }
+        })
+       
+    })
+</script>
+
+</html>

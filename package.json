@@ -1,0 +1,21 @@
+{
+  "name": "studentmanage",
+  "version": "1.0.0",
+  "description": "student manage system",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "student",
+    "manage"
+  ],
+  "author": "mbm",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "3",
+    "ejs": "^2.6.1",
+    "formidable": "^1.2.1",
+    "time-stamp": "^2.2.0"
+  }
+}
